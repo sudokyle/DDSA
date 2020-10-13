@@ -1,5 +1,16 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+# Dart Data Structures & Algorithms Library (DDSA)
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+This open source project is about implementing Data Structures, Algorithms, as well as
+Software Design Patterns with pure java (that is, no dependencies).
+
+
+### About The Project.
+Ever since I started working with Dart back in 2016, I have truly enjoyed this language and have
+enjoyed watching the community grow. back in college I wrote a silly little package to help manage
+matrices of N dimensions, little did I know I was essentially implementing a basic version of numpy's
+ndarray but in Dart.
+
+I figured it was about time I set up a repo where I can contribute knowledge of how to implement various
+things in Dart to share with the community. Bonus is I get to use it to take time to re-learn algorithms
+ I studied in college as well as new ones that excite me. If you'd like to also contribute to the project,
+ check out the [Contributing.md]().
