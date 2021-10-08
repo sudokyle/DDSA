@@ -1,6 +1,6 @@
 List<T> mergeSort<T extends Comparable>(List<T> unorderedList) {
   // Base case 1
-  if ((unorderedList?.isEmpty ?? true) || (unorderedList.length == 1)) {
+  if ((unorderedList.isEmpty) || (unorderedList.length == 1)) {
     return unorderedList;
   }
 
