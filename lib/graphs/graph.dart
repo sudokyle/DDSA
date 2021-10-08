@@ -183,7 +183,7 @@ class Graph<T> {
       var nextNode = queue.removeAt(0); // remove node from queue
       continueSearch =
           nodeHandler(nextNode); // determine whether to short-circuit.
-      if(!continueSearch) continue;
+      if (!continueSearch) continue;
       final unVisitedEdge =
           nextNode.edges.where(// get list of unVisited edge nodes.
               (edge) => !visitedList.contains(edge)).toList();

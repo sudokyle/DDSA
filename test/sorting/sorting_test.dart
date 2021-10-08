@@ -5,7 +5,8 @@ import 'package:DDSA/sorting/selection_sort.dart';
 import 'package:test/test.dart';
 import 'package:collection/collection.dart' hide insertionSort, mergeSort;
 
-typedef ComparableSorter<T extends Comparable> = List<T> Function(List<T> unorderedList);
+typedef ComparableSorter<T extends Comparable> = List<T> Function(
+    List<T> unorderedList);
 
 void main() {
   group('Sorting:', () {
