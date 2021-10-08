@@ -1,5 +1,5 @@
 List<T> insertionSort<T extends Comparable>(List<T> unorderedList) {
-  if (unorderedList?.isEmpty ?? true) return unorderedList;
+  if (unorderedList.isEmpty) return unorderedList;
   final orderedList = List<T>.from(unorderedList);
   for (var unsortedIndex = 1;
       unsortedIndex < orderedList.length;

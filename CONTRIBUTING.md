@@ -104,7 +104,7 @@ test
 of [PlantUml](https://plantuml.com/). It is a nice markdown language for defining various types of diagrams. Since Plantuml
 is free to use, and is a markdown based diagram tool, it makes it easy for others who are learning to
 open the file and easily play around with the diagram and learn. 
-  - For any PlantUml diagrams both the markdown and the png generated from it must be commited into your
+  - For any PlantUml diagrams both the markdown and the png generated from it must be committed into your
   branch's working directory.
   - To make it easy to view changes in markdown and generate your file, you can use the plugin for the following
   IDEs!

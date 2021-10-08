@@ -1,5 +1,5 @@
 List<T> selectionSort<T extends Comparable>(List<T> unorderedList) {
-  if (unorderedList?.isEmpty ?? true) return unorderedList;
+  if (unorderedList.isEmpty) return unorderedList;
   final orderedList = List<T>.from(unorderedList);
   for (var i = 0; i < orderedList.length; i++) {
     var minIndex = i;

@@ -1,5 +1,5 @@
 List<T> bubbleSort<T extends Comparable>(List<T> unorderedList) {
-  if (unorderedList?.isEmpty ?? true) return unorderedList;
+  if (unorderedList.isEmpty) return unorderedList;
   final sortedList = List<T>.from(unorderedList);
   var swapped = false;
   do {

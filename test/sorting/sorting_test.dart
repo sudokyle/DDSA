@@ -5,19 +5,17 @@ import 'package:DDSA/sorting/selection_sort.dart';
 import 'package:test/test.dart';
 import 'package:collection/collection.dart' hide insertionSort, mergeSort;
 
-typedef List<T> ComparableSorter<T extends Comparable>(List<T> unorderedList);
+typedef ComparableSorter<T extends Comparable> = List<T> Function(List<T> unorderedList);
 
 void main() {
   group('Sorting:', () {
-    List<int> nullList;
-    List<int> emptyList;
-    List<int> singleValueList;
-    List<int> twoValueList;
-    List<int> alreadyOrderedList;
-    List<int> unorderedList;
+    late List<int> emptyList;
+    late List<int> singleValueList;
+    late List<int> twoValueList;
+    late List<int> alreadyOrderedList;
+    late List<int> unorderedList;
 
     setUp(() {
-      nullList = null;
       emptyList = [];
       singleValueList = [3];
       twoValueList = [4, 3];
@@ -45,9 +43,6 @@ void main() {
     void verifySort(ComparableSorter sorter) {
       final equals = ListEquality().equals;
 
-      test('returns null when list is null', () {
-        expect(sorter(nullList), isNull);
-      });
       test('returns empty list when list is empty', () {
         expect(sorter(emptyList).isEmpty, isTrue);
       });

@@ -3,7 +3,7 @@
 
 // Returning false, will short-circuit the search algorithm.
 // Returning true, will allow the search algorithm to continue.
-typedef bool NodeHandler(Node node);
+typedef NodeHandler<T> = bool Function(Node<T> node);
 
 /// Used to represent a node in a graph whose value is of type [T].
 class Node<T> {
@@ -21,7 +21,7 @@ class Node<T> {
 
   @override
   String toString() {
-    return '{ value: ${value}, edges: [${edges.map((n) => n.value).join(',')}], hashCode: $hashCode }';
+    return '{ value: $value, edges: [${edges.map((n) => n.value).join(',')}], hashCode: $hashCode }';
   }
 
   @override
@@ -61,6 +61,7 @@ class Graph<T> {
   /// takes a graph that's flattened to a list of all it's [nodes] and maps
   /// the value of each node to that respective node. For faster reading.
   Map<T, Node<T>> _mapFlattenedGraph(List<Node<T>> nodes,
+      // ignore: unused_element
       {bool reset = false}) {
     final flatGraph = <T, Node<T>>{};
     nodes.forEach((node) => flatGraph[node.value] = node);
@@ -68,18 +69,20 @@ class Graph<T> {
   }
 
   /// Removes the node that stores [value] from the graph.
-  Node<T> remove(T value) {
+  Node<T>? remove(T value) {
     print('node count: ${_nodes.length}');
     final rmNode = _nodes.remove(value);
-    print('found rmNode: ${rmNode}');
-    print('node count: ${_nodes.length}');
-    _nodes.values.forEach((node) => node.remove(rmNode));
+    if (rmNode != null) {
+      print('found rmNode: $rmNode');
+      print('node count: ${_nodes.length}');
+      _nodes.values.forEach((node) => node.remove(rmNode));
+    }
     return rmNode;
   }
 
   /// Returns the node in the graph that stores [value].
   /// Returns [null] if there is no node mapped to [value].
-  Node<T> getNode(T value) => _nodes[value];
+  Node<T>? getNode(T value) => _nodes[value];
 
   /// Builds a new node that stores [value] and can optionally sets that node's
   /// [edges]
@@ -95,8 +98,10 @@ class Graph<T> {
   //   /// use Breadth First Search.
   void addNode(Node<T> node, {useDfs = true}) {
     final discoveredNodes = <Node<T>>[];
-    final handler = (Node node) {
-      if (!_nodes.containsKey(node.value)) discoveredNodes.add(node);
+    final handler = (Node<T> node) {
+      if (!_nodes.containsKey(node.value)) {
+        discoveredNodes.add(node);
+      }
       return true;
     };
     useDfs ? dfs<T>(node, handler) : bfs<T>(node, handler);
@@ -135,8 +140,8 @@ class Graph<T> {
   /// Finds a node that stores [value] in a Graph given a [node]. If [useDfs]
   /// is true, which it defaults to, then the traversal will leverage
   /// Depth First Search; otherwise it will use Breadth First Search.
-  static Node<E> find<E>(E value, Node<E> node, {bool useDfs = true}) {
-    Node<E> foundNode;
+  static Node<E>? find<E>(E value, Node<E> node, {bool useDfs = true}) {
+    Node<E>? foundNode;
     var handler = (node) {
       if (node.value == value) foundNode = node;
       return node.value != value;
@@ -149,7 +154,7 @@ class Graph<T> {
   ///
   /// returns a [Node<T>] whose value equals [value].
   /// returns [null] if graph is empty or a matching Node for [value] isn't found
-  static void dfs<E>(Node<E> node, NodeHandler nodeHandler) {
+  static void dfs<E>(Node<E> node, NodeHandler<E> nodeHandler) {
     final stack = <Node<E>>[node]; // initialize stack and add the node to it.
     final visitedList = [node]; // initialize visitedList and add node to it.
     var continueSearch = true; // initialize loop short-circuit.
@@ -170,7 +175,7 @@ class Graph<T> {
   ///
   /// returns a [Node<T>] whose value equals [value].
   /// returns [null] if graph is empty or a matching Node for [value] isn't found
-  static void bfs<E>(Node<E> node, NodeHandler nodeHandler) {
+  static void bfs<E>(Node<E> node, NodeHandler<E> nodeHandler) {
     final queue = <Node<E>>[node]; // initialize queue and add the node to it.
     final visitedList = [node]; // initialize visitedList and add node to it.
     var continueSearch = true; // initialize loop short-circuit.
@@ -178,6 +183,7 @@ class Graph<T> {
       var nextNode = queue.removeAt(0); // remove node from queue
       continueSearch =
           nodeHandler(nextNode); // determine whether to short-circuit.
+      if(!continueSearch) continue;
       final unVisitedEdge =
           nextNode.edges.where(// get list of unVisited edge nodes.
               (edge) => !visitedList.contains(edge)).toList();
