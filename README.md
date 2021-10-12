@@ -1,6 +1,6 @@
 # Dart Data Structures & Algorithms Library (DDSA)
 
-This open source project is about implementing Data Structures, Algorithms, as well as
+This open source project is about implementing algorithms, data structures, as well as
 software design patterns with pure Dart (that is, no dependencies).
 
 
