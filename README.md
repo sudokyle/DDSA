@@ -1,7 +1,7 @@
 # Dart Data Structures & Algorithms Library (DDSA)
 
 This open source project is about implementing Data Structures, Algorithms, as well as
-Software Design Patterns with pure java (that is, no dependencies).
+software design patterns with pure Dart (that is, no dependencies).
 
 
 ### About The Project.
@@ -11,6 +11,6 @@ matrices of N dimensions, little did I know I was essentially implementing a bas
 ndarray but in Dart.
 
 I figured it was about time I set up a repo where I can contribute knowledge of how to implement various
-things in Dart to share with the community. Bonus is I get to use it to take time to re-learn algorithms
- I studied in college as well as new ones that excite me. If you'd like to also contribute to the project,
- check out the [Contributing.md]().
+things in Dart to share with the community. Bonus is I get to use it to take time to re-learn algorithms,
+data structures, and design patterns I studied in college, as well as new ones that excite me. If you'd
+like to also contribute to the project, check out the [Contributing.md]().
