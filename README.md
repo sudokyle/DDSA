@@ -6,7 +6,7 @@ software design patterns with pure Dart (that is, no dependencies).
 
 ### About The Project.
 Ever since I started working with Dart back in 2016, I have truly enjoyed this language and have
-enjoyed watching the community grow. back in college I wrote a silly little package to help manage
+enjoyed watching the community grow. Back in college I wrote a silly little package to help manage
 matrices of N dimensions, little did I know I was essentially implementing a basic version of numpy's
 ndarray but in Dart.
 
