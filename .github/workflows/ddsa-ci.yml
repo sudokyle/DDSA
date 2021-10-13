@@ -17,6 +17,6 @@ jobs:
       - name: Install dependencies
         run: pub get
       - name: Format Check
-        run: dart format lib test --set-exit-if-changed --output=none --show=changed --summary=none
+        run: dart format lib test --set-exit-if-changed --output=none
       - name: Run tests
         run: pub run test
