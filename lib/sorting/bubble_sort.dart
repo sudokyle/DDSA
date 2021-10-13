@@ -15,6 +15,3 @@ List<T> bubbleSort<T extends Comparable>(List<T> unorderedList) {
   } while (swapped);
   return sortedList;
 }
-
-// test, delete this before merge.
-List list = [1, 2, 3, 4, 5, 6, 7 , 8, 9, 1, 2, 3, 4, 5, 6, 7,8 ,9 , 10, 1,2,3,4,5];
