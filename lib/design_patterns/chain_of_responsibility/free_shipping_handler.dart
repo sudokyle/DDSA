@@ -2,8 +2,8 @@ import 'package:DDSA/design_patterns/chain_of_responsibility/purchase_handler.da
 import 'package:DDSA/design_patterns/chain_of_responsibility/purchase_order.dart';
 
 class FreeShippingHandler extends PurchaseHandler {
-
-  FreeShippingHandler({PurchaseHandler? nextHandler}) : super(handler: nextHandler);
+  FreeShippingHandler({PurchaseHandler? nextHandler})
+      : super(handler: nextHandler);
 
   @override
   PurchaseOrder handleDiscount(PurchaseOrder order) {

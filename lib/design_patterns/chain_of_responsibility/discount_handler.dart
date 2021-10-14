@@ -17,7 +17,8 @@ class DiscountHandler extends PurchaseHandler {
 
     if (order.amount >= minimumAmount) {
       final newAmount = order.amount - discount;
-      updatedOrder = PurchaseOrder(newAmount, order.shipping, order.appliedDiscount);
+      updatedOrder =
+          PurchaseOrder(newAmount, order.shipping, order.appliedDiscount);
     }
 
     if (nextPurchaseHandler != null) {
@@ -29,7 +30,8 @@ class DiscountHandler extends PurchaseHandler {
 
   @override
   DiscountHandler copyOf() {
-    final handlerCopy = DiscountHandler(minimumAmount: minimumAmount, discount: discount);
+    final handlerCopy =
+        DiscountHandler(minimumAmount: minimumAmount, discount: discount);
     if (nextPurchaseHandler != null) {
       handlerCopy.updatePurchaseHandler(nextPurchaseHandler!.copyOf());
     }

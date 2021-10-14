@@ -9,13 +9,13 @@ enum Discount {
 }
 
 const Map<Discount, String> discountCodes = {
-  Discount.bronze : 'BRONZE',
-  Discount.silver : 'SILVER',
-  Discount.gold : 'GOLD',
-  Discount.platinum : 'PLATINUM',
-  Discount.holiday : 'HOLIDAY',
-  Discount.freeShip : 'FREESHIP',
-  Discount.unscVeteran : 'UNSCVETERAN',
+  Discount.bronze: 'BRONZE',
+  Discount.silver: 'SILVER',
+  Discount.gold: 'GOLD',
+  Discount.platinum: 'PLATINUM',
+  Discount.holiday: 'HOLIDAY',
+  Discount.freeShip: 'FREESHIP',
+  Discount.unscVeteran: 'UNSCVETERAN',
 };
 
 /// The Request Object
@@ -31,11 +31,13 @@ class PurchaseOrder {
   }
 
   @override
-  bool operator ==(o) => o is PurchaseOrder &&
+  bool operator ==(o) =>
+      o is PurchaseOrder &&
       amount == o.amount &&
       shipping == o.shipping &&
       appliedDiscount == o.appliedDiscount;
 
   @override
-  int get hashCode => amount.hashCode^shipping.hashCode^appliedDiscount.hashCode;
+  int get hashCode =>
+      amount.hashCode ^ shipping.hashCode ^ appliedDiscount.hashCode;
 }

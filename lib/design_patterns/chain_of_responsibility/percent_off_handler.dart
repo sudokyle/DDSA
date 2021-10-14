@@ -16,12 +16,13 @@ class PercentOffHandler extends PurchaseHandler {
     var updatedOrder = order;
 
     if (order.amount >= minimumAmount) {
-      final newAmount = order.amount - ( order.amount * (percentOff / 100));
-      updatedOrder = PurchaseOrder(newAmount, order.shipping, order.appliedDiscount);
+      final newAmount = order.amount - (order.amount * (percentOff / 100));
+      updatedOrder =
+          PurchaseOrder(newAmount, order.shipping, order.appliedDiscount);
     }
 
     final nextHandler = nextPurchaseHandler;
-    if (nextHandler  != null) {
+    if (nextHandler != null) {
       updatedOrder = nextHandler.handleDiscount(updatedOrder);
     }
 
@@ -30,7 +31,8 @@ class PercentOffHandler extends PurchaseHandler {
 
   @override
   PercentOffHandler copyOf() {
-    final handlerCopy = PercentOffHandler(minimumAmount: minimumAmount, percentOff: percentOff);
+    final handlerCopy =
+        PercentOffHandler(minimumAmount: minimumAmount, percentOff: percentOff);
     final nextHandler = nextPurchaseHandler;
 
     if (nextHandler != null) {

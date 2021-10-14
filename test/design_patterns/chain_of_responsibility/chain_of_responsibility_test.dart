@@ -6,24 +6,28 @@ import 'package:DDSA/design_patterns/chain_of_responsibility/purchase_order.dart
 import 'package:test/test.dart';
 
 PurchaseHandler bronzeHandler = DiscountHandler(minimumAmount: 50, discount: 5);
-PurchaseHandler silverHandler = DiscountHandler(minimumAmount: 75, discount: 10, nextHandler: bronzeHandler);
-PurchaseHandler goldHandler = PercentOffHandler(minimumAmount: 0, percentOff: 10);
-PurchaseHandler platinumHandler = goldHandler.copyOf()..updatePurchaseHandler(silverHandler);
-PurchaseHandler holidayHandler = PercentOffHandler(minimumAmount: 25, percentOff: 5);
+PurchaseHandler silverHandler = DiscountHandler(
+    minimumAmount: 75, discount: 10, nextHandler: bronzeHandler);
+PurchaseHandler goldHandler =
+    PercentOffHandler(minimumAmount: 0, percentOff: 10);
+PurchaseHandler platinumHandler = goldHandler.copyOf()
+  ..updatePurchaseHandler(silverHandler);
+PurchaseHandler holidayHandler =
+    PercentOffHandler(minimumAmount: 25, percentOff: 5);
 PurchaseHandler freeShipHandler = FreeShippingHandler();
-PurchaseHandler unscVeteranHandler = goldHandler.copyOf()..updatePurchaseHandler(freeShipHandler.copyOf());
+PurchaseHandler unscVeteranHandler = goldHandler.copyOf()
+  ..updatePurchaseHandler(freeShipHandler.copyOf());
 
 Map<Discount, PurchaseHandler> getDiscountHandler = {
   Discount.bronze: bronzeHandler,
-  Discount.silver:  silverHandler,
-  Discount.gold:  goldHandler,
-  Discount.platinum:  platinumHandler,
-  Discount.holiday:  holidayHandler,
-  Discount.unscVeteran:  unscVeteranHandler,
-  Discount.freeShip:  freeShipHandler,
+  Discount.silver: silverHandler,
+  Discount.gold: goldHandler,
+  Discount.platinum: platinumHandler,
+  Discount.holiday: holidayHandler,
+  Discount.unscVeteran: unscVeteranHandler,
+  Discount.freeShip: freeShipHandler,
 };
 void main() {
-
   final purchaseOrders = <PurchaseOrder>[
     PurchaseOrder(45, 10, Discount.bronze), // Expected: 45, 10, bronze
     PurchaseOrder(50, 10, Discount.bronze), // Expected: 45, 10, bronze
@@ -58,7 +62,8 @@ void main() {
       for (var i = 0; i < purchaseOrders.length; i++) {
         var purchaseOrder = purchaseOrders[i];
         var updatedPurchaseOrder = purchaseOrder;
-        final discountHandler = getDiscountHandler[purchaseOrder.appliedDiscount];
+        final discountHandler =
+            getDiscountHandler[purchaseOrder.appliedDiscount];
         if (discountHandler != null) {
           updatedPurchaseOrder = discountHandler.handleDiscount(purchaseOrder);
         }
