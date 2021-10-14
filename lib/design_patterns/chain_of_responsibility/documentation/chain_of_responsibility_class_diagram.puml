@@ -1,0 +1,50 @@
+'https://plantuml.com/class-diagram
+
+@startuml
+'----------------- Definitions -----------------
+abstract class PurchaseHandler {
+ - PurchaseHandler? _nextPurchaseHandler
+ + PurchaseHandler({PurchaseHandler? handler})
+ + PurchaseOrder handleDiscount(PurchaseOrder order);
+ + PurchaseHandler? nextPurchaseHandler()
+ + PurchaseHandler copyOf()
+}
+
+class PercentOffHandler extends PurchaseHandler {
+ + final double minimumAmount
+ + final double percentOff
+ + PercentOffHandler(required double minimumAmount, required double percentOff, {PurchaseHandler? nextHandler})
+}
+
+class FreeShippingHandler extends PurchaseHandler {
+ + PercentOffHandler({PurchaseHandler? nextHandler})
+}
+
+class DiscountHandler extends PurchaseHandler {
+ + final double minimumAmount
+ + final double discount
+ + PercentOffHandler(required double minimumAmount, required double discount, {PurchaseHandler? nextHandler})
+}
+
+class PurchaseOrder {
+ + final double amount
+ + final double shipping
+ + final Discount appliedDiscount
+}
+
+enum Discount {
+ bronze,
+ silver,
+ gold,
+ platinum,
+ holiday,
+ freeShip,
+ unscVeteran
+}
+
+'----------------- Relationships -----------------
+PurchaseHandler "1" --> "1" PurchaseOrder
+PurchaseHandler "1" *-- "0-1" PurchaseHandler : contains
+PurchaseOrder "1" *-- "1" Discount
+
+@enduml
