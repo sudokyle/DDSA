@@ -20,9 +20,10 @@ class PercentOffHandler extends PurchaseHandler {
       updatedOrder = PurchaseOrder(newAmount, order.shipping, order.appliedDiscount);
     }
 
-    nextPurchaseHandler.ifPresent((nextHandler) {
+    final nextHandler = nextPurchaseHandler;
+    if (nextHandler  != null) {
       updatedOrder = nextHandler.handleDiscount(updatedOrder);
-    });
+    }
 
     return updatedOrder;
   }
@@ -30,9 +31,12 @@ class PercentOffHandler extends PurchaseHandler {
   @override
   PercentOffHandler copyOf() {
     final handlerCopy = PercentOffHandler(minimumAmount: minimumAmount, percentOff: percentOff);
-    nextPurchaseHandler.ifPresent((nextHandler) {
+    final nextHandler = nextPurchaseHandler;
+
+    if (nextHandler != null) {
       handlerCopy.updatePurchaseHandler(nextHandler.copyOf());
-    });
+    }
+
     return handlerCopy;
   }
 }

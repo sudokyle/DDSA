@@ -9,9 +9,10 @@ class FreeShippingHandler extends PurchaseHandler {
   PurchaseOrder handleDiscount(PurchaseOrder order) {
     var updatedOrder = PurchaseOrder(order.amount, 0, order.appliedDiscount);
 
-    nextPurchaseHandler.ifPresent((handler) {
+    final handler = nextPurchaseHandler;
+    if (handler != null) {
       updatedOrder = handler.handleDiscount(updatedOrder);
-    });
+    }
 
     return updatedOrder;
   }
@@ -19,9 +20,11 @@ class FreeShippingHandler extends PurchaseHandler {
   @override
   FreeShippingHandler copyOf() {
     final handlerCopy = FreeShippingHandler();
-    nextPurchaseHandler.ifPresent((nextHandler) {
+    final nextHandler = nextPurchaseHandler;
+    if (nextHandler != null) {
       handlerCopy.updatePurchaseHandler(nextHandler.copyOf());
-    });
+    }
+
     return handlerCopy;
   }
 }

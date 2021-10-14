@@ -52,7 +52,7 @@ void main() {
     PurchaseOrder(22.5, 0, Discount.unscVeteran), // Expected: 22.5, 0, holiday
   ];
 
-  group('ChainOfResponsibility', () {
+  group('ChainOfResponsibility:', () {
     test('All purchase chains properly calculate values', () {
       // Process Orders
       for (var i = 0; i < purchaseOrders.length; i++) {

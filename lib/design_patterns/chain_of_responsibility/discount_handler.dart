@@ -20,9 +20,9 @@ class DiscountHandler extends PurchaseHandler {
       updatedOrder = PurchaseOrder(newAmount, order.shipping, order.appliedDiscount);
     }
 
-    nextPurchaseHandler.ifPresent((nextHandler) {
-      updatedOrder = nextHandler.handleDiscount(updatedOrder);
-    });
+    if (nextPurchaseHandler != null) {
+      updatedOrder = nextPurchaseHandler!.handleDiscount(updatedOrder);
+    }
 
     return updatedOrder;
   }
@@ -30,9 +30,9 @@ class DiscountHandler extends PurchaseHandler {
   @override
   DiscountHandler copyOf() {
     final handlerCopy = DiscountHandler(minimumAmount: minimumAmount, discount: discount);
-    nextPurchaseHandler.ifPresent((nextHandler) {
-      handlerCopy.updatePurchaseHandler(nextHandler.copyOf());
-    });
+    if (nextPurchaseHandler != null) {
+      handlerCopy.updatePurchaseHandler(nextPurchaseHandler!.copyOf());
+    }
     return handlerCopy;
   }
 }
