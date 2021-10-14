@@ -77,11 +77,11 @@ test
 ```
 
 #### Multi-file Example:
-Note that note everything needs to be tested, e.g. node.dart
+Note that not everything needs to be tested, e.g. node.dart
 simply implements a pure PODO ( Plain old dart object) so there is no real story to test there.
 In reality you could leave that in the `graph.dart` file if
 you wanted, this is simply done for demonstration purposes, but know
-that it is acceptable to pull something like that out it out into its own file if
+that it is acceptable to pull something like that out into its own file if
 desired, just know you need to follow this multi-file structure then.
 ```yaml
 # Project folder tree
