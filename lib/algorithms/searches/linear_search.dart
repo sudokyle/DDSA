@@ -3,12 +3,12 @@
 int linearSearch(List<int> list, int find) {
   var index = list.length;
 
-  for(var i = 0; i < index; i++){
-    if(list[i] == find) {
+  for (var i = 0; i < index; i++) {
+    if (list[i] == find) {
       return i;
     }
   }
-    return -1;
+  return -1;
 }
 /*
 void main() {
@@ -23,4 +23,3 @@ void main() {
     print(linearSearch(testCase, 5));
   }
   */
-
