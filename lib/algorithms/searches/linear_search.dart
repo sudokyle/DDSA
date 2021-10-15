@@ -1,4 +1,5 @@
-
+//for loop to linearly search through list and locate find
+//returns -1 if find not in list, returns index value of find if present in list
 int linearSearch(List<int> list, int find) {
   var index = list.length;
 
@@ -9,7 +10,7 @@ int linearSearch(List<int> list, int find) {
   }
     return -1;
 }
-
+/*
 void main() {
   final listTestCases = <List<int>>[
     [],
@@ -21,5 +22,5 @@ void main() {
   for (var testCase in listTestCases) {
     print(linearSearch(testCase, 5));
   }
+  */
 
-}
