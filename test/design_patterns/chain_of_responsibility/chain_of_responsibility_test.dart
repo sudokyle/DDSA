@@ -34,7 +34,6 @@ Map<Discount, PurchaseHandler> getDiscountHandler = {
 
 @GenerateMocks([DiscountHandler, PercentOffHandler, FreeShippingHandler])
 void main() {
-
   group('ChainOfResponsibility:', () {
     group('When there are multiple chains which use each other', () {
       final purchaseOrders = <PurchaseOrder>[
@@ -48,7 +47,8 @@ void main() {
         PurchaseOrder(10, 10, Discount.holiday), // Expected: 10, 10, holiday
         PurchaseOrder(25, 10, Discount.holiday), // Expected: 23.75, 10, holiday
         PurchaseOrder(25, 10, Discount.freeShip), // Expected: 25, 0, holiday
-        PurchaseOrder(25, 10, Discount.unscVeteran), // Expected: 22.5, 0, holiday
+        PurchaseOrder(
+            25, 10, Discount.unscVeteran), // Expected: 22.5, 0, holiday
       ];
 
       final expectedPurchaseOrders = <PurchaseOrder>[
@@ -60,9 +60,11 @@ void main() {
         PurchaseOrder(9, 10, Discount.platinum), // Expected: 9, 10, platinum
         PurchaseOrder(75, 10, Discount.platinum), // Expected: 75, 10, platinum
         PurchaseOrder(10, 10, Discount.holiday), // Expected: 10, 10, holiday
-        PurchaseOrder(23.75, 10, Discount.holiday), // Expected: 23.75, 10, holiday
+        PurchaseOrder(
+            23.75, 10, Discount.holiday), // Expected: 23.75, 10, holiday
         PurchaseOrder(25, 0, Discount.freeShip), // Expected: 25, 0, holiday
-        PurchaseOrder(22.5, 0, Discount.unscVeteran), // Expected: 22.5, 0, holiday
+        PurchaseOrder(
+            22.5, 0, Discount.unscVeteran), // Expected: 22.5, 0, holiday
       ];
       test('then all purchase chains properly calculate values', () {
         // Process Orders
@@ -70,9 +72,10 @@ void main() {
           var purchaseOrder = purchaseOrders[i];
           var updatedPurchaseOrder = purchaseOrder;
           final discountHandler =
-          getDiscountHandler[purchaseOrder.appliedDiscount];
+              getDiscountHandler[purchaseOrder.appliedDiscount];
           if (discountHandler != null) {
-            updatedPurchaseOrder = discountHandler.handleDiscount(purchaseOrder);
+            updatedPurchaseOrder =
+                discountHandler.handleDiscount(purchaseOrder);
           }
           expect(updatedPurchaseOrder, equals(expectedPurchaseOrders[i]));
         }
@@ -93,11 +96,13 @@ void main() {
 
       group('no next handler', () {
         test('then only that handler of the request handles it', () {
-          expect(discountHandler.handleDiscount(fakeOrder), equals(PurchaseOrder(0, 5, Discount.gold)));
-          expect(percentOffHandler.handleDiscount(fakeOrder), equals(PurchaseOrder(4.75, 5, Discount.gold)));
-          expect(freeShippingHandler.handleDiscount(fakeOrder), equals(PurchaseOrder(5, 0, Discount.gold)));
+          expect(discountHandler.handleDiscount(fakeOrder),
+              equals(PurchaseOrder(0, 5, Discount.gold)));
+          expect(percentOffHandler.handleDiscount(fakeOrder),
+              equals(PurchaseOrder(4.75, 5, Discount.gold)));
+          expect(freeShippingHandler.handleDiscount(fakeOrder),
+              equals(PurchaseOrder(5, 0, Discount.gold)));
         });
-
       });
 
       group('a next handler', () {
@@ -112,7 +117,8 @@ void main() {
           mockPercentOffHandler = MockPercentOffHandler();
           when(mockPercentOffHandler.handleDiscount(any)).thenReturn(fakeOrder);
           mockFreeShippingHandler = MockFreeShippingHandler();
-          when(mockFreeShippingHandler.handleDiscount(any)).thenReturn(fakeOrder);
+          when(mockFreeShippingHandler.handleDiscount(any))
+              .thenReturn(fakeOrder);
 
           // Configure chains
           discountHandler.updatePurchaseHandler(mockDiscountHandler);
@@ -133,7 +139,5 @@ void main() {
         });
       });
     });
-
-
   });
 }
