@@ -1,9 +1,7 @@
 import 'package:DDSA/algorithms/searches/linear_search.dart';
 import 'package:test/test.dart';
 
-
 void main() {
-
   // Empty list case
   // single
   // multiple even
@@ -11,7 +9,6 @@ void main() {
 
   group('LinearSearch:', () {
     group('When searching a list', () {
-
       final notPresentTest = <T>(List<T> list, T find) {
         group('and the item isn\'t present', () {
           test('then returns -1.', () {
@@ -37,12 +34,12 @@ void main() {
         presentTest(testList, 1, 0);
       });
       group('that has an even number of items', () {
-        final testList = [1,2,3,4,5, 6];
+        final testList = [1, 2, 3, 4, 5, 6];
         notPresentTest(testList, 7);
         presentTest(testList, 6, 5);
       });
       group('that has an odd number of items', () {
-        final testList = [1,2,3,4,5];
+        final testList = [1, 2, 3, 4, 5];
         notPresentTest(testList, 6);
         presentTest(testList, 3, 2);
       });
