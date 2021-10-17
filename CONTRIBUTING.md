@@ -15,7 +15,20 @@ Follow the official Dart guide for getting Dart installed [here](https://dart.de
 ### Get Repo Setup
 
 #### With [Github CLI](https://cli.github.com/)
-**Note:** say yes when prompted to clone your fork.
+First make sure you are signed into github cli
+(I will show the options I usually use to auth be feel free to auth however you prefer)
+```bash
+gh auth login
+? What account do you want to log into? GitHub.com
+- GitHub.com
+? How would you like to authenticate?
+- Login with a web browser
+? Choose default git protocol
+- SSH
+```
+Now Fork the repo and clone it
+<br>
+(**Note:** say yes when prompted to clone your fork.)
 ```bash
 gh repo fork Hanbrolo117/DDSA
 cd DDSA
@@ -46,7 +59,11 @@ Check out [this Github doc on forking](https://docs.github.com/en/free-pro-team@
 The branch name should be the name of the algorithm, data structure, software design pattern, etc.
 The name must be in all lowercase and words separated by dashes (i.e. `-`).
 ```bash
-gco -b branch-name-here
+# Formula:
+git checkout -b branch-name-here
+# Example, I want to implement Chain Of Responsibility Design Pattern by Gang of Four
+git checkout -b chain-of-responsibility
+
 ```
 
 ## Implementing Your Work
@@ -63,6 +80,9 @@ so that your supporting docs can reside with your work in a single folder.
 but with a postfix of`_test` added to it's name.   
 - Unit tests live in the `test` folder,
 which mimics the `src` foldertree.
+- Once tests are written all unit test suites will need to be added to the ddsa_test.dart file
+in order for CI to pass. Any maintainer code reviewing PRs will deny them from being merged until this is
+done so.
 
 #### Single file Example:
 ```yaml
@@ -99,6 +119,53 @@ test
           |___ graph_test.dart
 ```
 
+#### Adding unit test suites to the main test file.
+```dart
+// In the test/ddsa_test.dart file
+import 'path/to/your/test_file.dart' as test_file;
+void main() {
+  // There will be other tests being executed here, just add a new line at the bottom and invoke your tests there.
+  test_file.main();
+}
+```
+
+#### Running your tests
+To run the full test suite, run the following:
+```bash
+make test
+```
+
+#### Building for tests
+While our project is about writing with pure dart and not leveraging packages for implementations, we do use a couple
+packages to help out with testing. We utilize [test](https://pub.dev/packages/test) and
+[mockito](https://pub.dev/packages/mockito) for writing our unit tests. With the advent of Dart 2.12 which introduces
+Sound null safety, [mockito](https://pub.dev/packages/mockito) now requires consumers to depend on
+[build_runner](https://pub.dev/packages/build_runner) to allow usages of its argument capturing features like `any`, to
+for non-nullable parameters. It will generate code for any mocked files, check their
+[null safety readme](https://github.com/dart-lang/mockito/blob/master/NULL_SAFETY_README.md) for how to properly mock
+things that leverage Dart's null safety features.
+<br><br>
+Because of this, some tests may require a build to be run by build_runner.
+<br><br>
+##### To run a one-off build of your mockito test, run the following in the root directory of the project:
+```bash
+make build
+```
+<br><br>
+##### To run a build that watches your code and runs after any changes are made for your mockito test, run the following in the root directory of the project:
+```bash
+make watch
+```
+
+### Formatting
+To maintain a consistent formatting style across the code and test code, this repo follows the Dart formatting via it's
+provided tooling. To format your code, simply run the following:
+```bash
+make format
+```
+
+
+
 ### Diagramming
 - If you wish to create umls, sequence diagrams for your work, this project encourages the use
 of [PlantUml](https://plantuml.com/). It is a nice markdown language for defining various types of diagrams. Since Plantuml
@@ -113,4 +180,12 @@ open the file and easily play around with the diagram and learn.
 - You are however of course free to use any diagram tool, however, if this is a proprietary tool, then
 you must also commit the generated png file of your diagram for others to view, that is only providing a
 proprietary file type of a uml design tool will not suffice as it limits those who do not have that tool
-from viewing your work. 
+from viewing your work.
+
+## Code Reviews
+- All unit tests created must be added to the `test/ddsa_test.dart` file.
+- All diagrams added should use Plant Uml with the `.puml` and generated `.png` files committed.
+- The PR Description must be properly filled out.
+- Code must be passing CI
+  - All code in `lib/` and `test/` must be formatted properly.
+  - All tests must be passing
