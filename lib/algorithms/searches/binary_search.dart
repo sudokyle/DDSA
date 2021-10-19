@@ -12,24 +12,24 @@ int binarySearch<B extends Comparable>(List<B> list, B find) {
   var end = numItems - 1;
   var start = 0;
 
-    // first compare end of current index list to beginning of index list
-    // to ensure mid variable is not invalid
-    // also automatically ends program if [list] is empty
-    while (start <= end) {
-      var mid = ((end - start) / 2).floor();
-      if (list[mid] == find) {
-        return mid;
-      }
-      // If the midpoint value is less than [find],
-      // the search continues in the lower half of [list]
-      else if (list[mid].compareTo(find) > 0) {
-        end = mid - 1;
-      }
-      //If the midpoint value is greater than [find],
-      // the search continues in the upper half of [list]
-      else {
-        start = mid + 1;
-      }
+  // first compare end of current index list to beginning of index list
+  // to ensure mid variable is not invalid
+  // also automatically ends program if [list] is empty
+  while (start <= end) {
+    var mid = ((end + start) / 2).floor();
+    if (list[mid] == find) {
+      return mid;
     }
-    return -1;
+    // If the midpoint value is less than [find],
+    // the search continues in the lower half of [list]
+    else if (list[mid].compareTo(find) > 0) {
+      end = mid - 1;
+    }
+    //If the midpoint value is greater than [find],
+    // the search continues in the upper half of [list]
+    else {
+      start = mid + 1;
+    }
   }
+  return -1;
+}
