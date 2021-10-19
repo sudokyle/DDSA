@@ -17,7 +17,8 @@ void main() {
         });
       };
 
-      final presentTest = <T extends Comparable>(List<T> list, T find, int expectedIndex) {
+      final presentTest =
+          <T extends Comparable>(List<T> list, T find, int expectedIndex) {
         group('and the item is present', () {
           test('then returns the index of that item.', () {
             expect(binarySearch(list, find), equals(expectedIndex));
