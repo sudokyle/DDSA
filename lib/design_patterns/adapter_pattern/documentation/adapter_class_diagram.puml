@@ -1,0 +1,30 @@
+'https://plantuml.com/class-diagram
+
+@startuml
+'----------------- Definitions -----------------
+abstract class Bird {
+ + String fly()
+ + String makeSound()
+}
+
+abstract class ToyDuck {
+ + String squeak()
+}
+
+class Sparrow implements Bird {
+ + String fly()
+ + String makeSound()}
+
+class PlasticToyDuck extends ToyDuck {
+ + String squeak()
+}
+
+class BirdAdapter implements ToyDuck {
+ - Bird _bird
+ + String squeak()
+}
+
+'----------------- Relationships -----------------
+BirdAdapter "1" --> "1" Bird
+
+@enduml
