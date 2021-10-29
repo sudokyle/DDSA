@@ -13,5 +13,4 @@ void main() {
   binary_search.main();
   jump_search.main();
   adapter_pattern.main();
-
 }
