@@ -10,10 +10,10 @@ import 'dart:math';
 int jumpSearch<J extends Comparable>(List<J> list, J find) {
   var numItems = list.length;
 
-  if (numItems==0) {
+  if (numItems == 0) {
     return -1;
   }
-  
+
   var index = 0;
   var jump = sqrt(numItems).floor();
 
