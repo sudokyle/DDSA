@@ -15,7 +15,7 @@ Follow the official Dart guide for getting Dart installed [here](https://dart.de
 ### Get Repo Setup
 
 #### With [Github CLI](https://cli.github.com/)
-First make sure you are signed into github cli
+First make sure you are signed in to github cli
 (I will show the options I usually use to auth be feel free to auth however you prefer)
 ```bash
 gh auth login
