@@ -12,15 +12,21 @@ int jumpSearch<J extends Comparable>(List<J> list, J find) {
   var index = 0;
   var jump = sqrt(numItems).floor();
 
-  while(list[min(jump,numItems)-1].compareTo(find) < 0) {
-        index = jump;
-        jump += jump;
-        if(index >= numItems) {
-          return -1;
-        }
-  }
-      while()
+  while (list[min(jump, numItems) - 1].compareTo(find) < 0) {
+    index = jump;
+    jump += jump;
+    if (index >= numItems) {
       return -1;
+    }
   }
-
-
+  while (list[index].compareTo(find) < 0) {
+    index++;
+    if (index == min(jump, numItems)) {
+      return -1;
+    }
+  }
+  if (list[index] == find) {
+    return index;
+  }
+  return -1;
+}
