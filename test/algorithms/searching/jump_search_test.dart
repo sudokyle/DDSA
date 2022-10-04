@@ -1,4 +1,5 @@
-import 'package:DDSA/algorithms/searches/jump_search.dart';
+
+import 'package:DDSA/algorithms/searching/jump_search.dart';
 import 'package:test/test.dart';
 
 void main() {

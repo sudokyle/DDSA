@@ -1,4 +1,5 @@
-import 'package:DDSA/algorithms/searches/linear_search.dart';
+
+import 'package:DDSA/algorithms/searching/binary_search.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -7,26 +8,27 @@ void main() {
   // multiple even
   // multiple odd
 
-  group('LinearSearch:', () {
+  group('BinarySearch:', () {
     group('When searching a list', () {
-      final notPresentTest = <T>(List<T> list, T find) {
+      final notPresentTest = <T extends Comparable>(List<T> list, T find) {
         group('and the item isn\'t present', () {
           test('then returns -1.', () {
-            expect(linearSearch(list, find), equals(-1));
+            expect(binarySearch(list, find), equals(-1));
           });
         });
       };
 
-      final presentTest = <T>(List<T> list, T find, int expectedIndex) {
+      final presentTest =
+          <T extends Comparable>(List<T> list, T find, int expectedIndex) {
         group('and the item is present', () {
           test('then returns the index of that item.', () {
-            expect(linearSearch(list, find), equals(expectedIndex));
+            expect(binarySearch(list, find), equals(expectedIndex));
           });
         });
       };
 
       group('that is empty', () {
-        notPresentTest([], 4);
+        notPresentTest<int>([], 4);
       });
       group('that has a single item', () {
         final testList = [1];
