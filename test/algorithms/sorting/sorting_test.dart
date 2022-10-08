@@ -1,7 +1,7 @@
-import 'package:DDSA/sorting/bubble_sort.dart';
-import 'package:DDSA/sorting/insertion_sort.dart';
-import 'package:DDSA/sorting/merge_sort.dart';
-import 'package:DDSA/sorting/selection_sort.dart';
+import 'package:DDSA/algorithms/sorting/bubble_sort.dart';
+import 'package:DDSA/algorithms/sorting/insertion_sort.dart';
+import 'package:DDSA/algorithms/sorting/merge_sort.dart';
+import 'package:DDSA/algorithms/sorting/selection_sort.dart';
 import 'package:test/test.dart';
 import 'package:collection/collection.dart' hide insertionSort, mergeSort;
 

@@ -1,4 +1,4 @@
-import 'package:DDSA/algorithms/searches/linear_search.dart';
+import 'package:DDSA/algorithms/searching/linear_search.dart';
 import 'package:test/test.dart';
 
 void main() {
