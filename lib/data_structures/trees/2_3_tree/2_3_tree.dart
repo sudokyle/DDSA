@@ -6,8 +6,44 @@ class TwoThreeTree<T extends Comparable> {
       : _root = value == null ? ZeroNode() : TwoNode<T>.createLeaf(value);
   Node<T> _root;
 
+  factory TwoThreeTree.fromList(Iterable<T> values) {
+    final tree = TwoThreeTree<T>();
+    values.forEach(tree.insert);
+    return tree;
+  }
+
+  int get height {
+    var height = 0;
+    Node<T>? node = _root;
+    while (node != null && node.hasChildren) {
+      node = node is TwoNode<T> ? node.left : (node as ThreeNode<T>).left;
+      ++height;
+    }
+    return height;
+  }
+
+  Node<T>? nodeByPath(String path) {
+    final segments = path.split('/');
+    if (segments.isEmpty) return _root;
+    Node<T>? node = _root;
+    for (final segment in segments) {
+      final direction = segment.toLowerCase();
+      if (direction == 'left') {
+        node = node is TwoNode<T> ? node.left : (node as ThreeNode<T>).left;
+      } else if (direction == 'right') {
+        node = node is TwoNode<T> ? node.right : (node as ThreeNode<T>).right;
+      } else if (direction == 'middle') {
+        node = node is ThreeNode<T>
+            ? node.middle
+            : throw Exception(
+                'Attempting to access a middle node on a TwoNode.');
+      }
+    }
+    return node;
+  }
+
   void insert(T newValue) {
-    _root = _insert(newValue, _root);
+    _root = _insert<T>(newValue, _root);
 
     if (_root is FourNode<T>) {
       final fourNode = _root as FourNode<T>;
@@ -23,7 +59,8 @@ class TwoThreeTree<T extends Comparable> {
     }
   }
 
-  Node<T> _insert(T newValue, Node<T> currentNode) {
+  static Node<X> _insert<X extends Comparable>(
+      X newValue, Node<X> currentNode) {
     // Base Case: initial Root
     if (currentNode is ZeroNode) {
       return leafNodeBuilder(newValue);
@@ -40,7 +77,7 @@ class TwoThreeTree<T extends Comparable> {
       final parent = currentNode;
       final childUpdate = _getChildNodeToTraverse(newValue, parent);
       final newChild = _insert(newValue, childUpdate.nextChildNode);
-      if (newChild is FourNode<T>) {
+      if (newChild is FourNode<X>) {
         // Promote newChild Values to balance
         final newLeftSubTree = newChild.hasChildren
             ? TwoNode.create(
@@ -57,23 +94,16 @@ class TwoThreeTree<T extends Comparable> {
         // print('LeftSubTree: $newLeftSubTree ${newLeftSubTree.hasChildren}');
         // print('RightSubTree: $newRightSubTree ${newRightSubTree.hasChildren}');
 
-        if (parent is TwoNode<T>) {
-          final leftChild = isLeftUpdate ? newLeftSubTree : parent.left;
-          final middleChild = isLeftUpdate ? newRightSubTree : newLeftSubTree;
-          final rightChild = isRightUpdate ? newRightSubTree : parent.right;
-          // print('Left: $leftChild ${leftChild.hasChildren}');
-          // print('Middle: $middleChild ${middleChild.hasChildren}');
-          // print('Right: $rightChild ${rightChild.hasChildren}');
-
-          return ThreeNode<T>.create(
+        if (parent is TwoNode<X>) {
+          return ThreeNode<X>.create(
             isLeftUpdate ? newChild.middleValue : parent.value,
             isRightUpdate ? newChild.middleValue : parent.value,
             isLeftUpdate ? newLeftSubTree : parent.left,
             isLeftUpdate ? newRightSubTree : newLeftSubTree,
             isRightUpdate ? newRightSubTree : parent.right,
           );
-        } else if (parent is ThreeNode<T>) {
-          return FourNode<T>.create(
+        } else if (parent is ThreeNode<X>) {
+          return FourNode<X>.create(
             isLeftUpdate ? newChild.middleValue : parent.leftValue,
             isLeftUpdate
                 ? parent.leftValue
@@ -105,21 +135,22 @@ class TwoThreeTree<T extends Comparable> {
     throw Exception('Invalid Insertion State');
   }
 
-  ChildUpdate<T> _getChildNodeToTraverse(T newValue, Node<T> parent) {
-    late final ChildUpdate<T> childNode;
-    if (parent is TwoNode<T>) {
+  static ChildUpdate<X> _getChildNodeToTraverse<X extends Comparable>(
+      X newValue, Node<X> parent) {
+    late final ChildUpdate<X> childNode;
+    if (parent is TwoNode<X>) {
       final traverseRight = parent.value.compareTo(newValue) < 0;
       childNode = ChildUpdate(
           childKey: traverseRight ? ChildKey.right : ChildKey.left,
           nextChildNode: traverseRight ? parent.right : parent.left,
-          updateChild: (Node<T> node) {
+          updateChild: (Node<X> node) {
             if (traverseRight) {
               parent.right = node;
             } else {
               parent.left = node;
             }
           });
-    } else if (parent is ThreeNode<T>) {
+    } else if (parent is ThreeNode<X>) {
       final lessThanLeftValue = parent.leftValue.compareTo(newValue) > 0;
       final greaterThanRightValue = parent.rightValue.compareTo(newValue) < 0;
 
@@ -134,7 +165,7 @@ class TwoThreeTree<T extends Comparable> {
             : greaterThanRightValue
                 ? parent.right
                 : parent.middle,
-        updateChild: (Node<T> node) {
+        updateChild: (Node<X> node) {
           if (lessThanLeftValue) {
             parent.left = node;
           } else if (greaterThanRightValue) {
@@ -173,41 +204,4 @@ class ChildUpdate<T extends Comparable> {
   final Node<T> nextChildNode;
   final ChildUpdater<T> updateChild;
   final ChildKey childKey;
-}
-
-void main() {
-  final tree = TwoThreeTree<int>(value: 20);
-  tree.insert(30);
-  tree.insert(40);
-  tree.insert(15);
-  tree.insert(50);
-  tree.insert(60);
-  tree.insert(25);
-  tree.insert(45);
-  tree.insert(65);
-  tree.insert(35);
-  tree.insert(55);
-
-  tree.insert(70);
-  tree.insert(80);
-  tree.insert(90);
-  tree.insert(100);
-
-  tree.insert(110);
-  tree.insert(120);
-  tree.insert(130);
-  tree.insert(140);
-  tree.insert(150);
-  tree.insert(160);
-  tree.insert(170);
-  tree.insert(180);
-  tree.insert(190);
-  tree.insert(200);
-  tree.insert(210);
-  tree.insert(220);
-  tree.insert(230);
-  tree.insert(240);
-  tree.insert(250);
-  tree.insert(260);
-  print(tree);
 }
