@@ -1,17 +1,15 @@
-
 abstract class Node<T extends Comparable> {
   bool get hasChildren;
   Iterable<Node<T>> get children;
 }
-
 
 // Insertion + Tree balancing Algorithm
 // Step 1: traverse to find insertionNode
 // Step 2: calculate new Node for insertionNode
 // Step 3: promote / update tree accordingly
 
-
-Node<T> leafNodeBuilder<T extends Comparable>(T newValue, {Node<T>? insertionNode}) {
+Node<T> leafNodeBuilder<T extends Comparable>(T newValue,
+    {Node<T>? insertionNode}) {
   late final newNode;
 
   if (insertionNode == null) {
@@ -19,16 +17,19 @@ Node<T> leafNodeBuilder<T extends Comparable>(T newValue, {Node<T>? insertionNod
   } else if (insertionNode is TwoNode<T>) {
     final value = insertionNode.value;
     final isNewLeft = insertionNode.value.compareTo(newValue) > 0;
-    newNode = ThreeNode.createLeaf((isNewLeft ? newValue : value), isNewLeft ? value : newValue);
+    newNode = ThreeNode.createLeaf(
+        (isNewLeft ? newValue : value), isNewLeft ? value : newValue);
   } else if (insertionNode is ThreeNode<T>) {
     final leftValue = insertionNode.leftValue;
     final rightValue = insertionNode.rightValue;
     final isNewLeft = leftValue.compareTo(newValue) > 0;
     final isNewRight = rightValue.compareTo(newValue) < 0;
 
-    newNode = isNewLeft ? FourNode.createLeaf(newValue, leftValue, rightValue) :
-      isNewRight ? FourNode.createLeaf(leftValue, rightValue, newValue) :
-      FourNode.createLeaf(leftValue, newValue, rightValue);
+    newNode = isNewLeft
+        ? FourNode.createLeaf(newValue, leftValue, rightValue)
+        : isNewRight
+            ? FourNode.createLeaf(leftValue, rightValue, newValue)
+            : FourNode.createLeaf(leftValue, newValue, rightValue);
   }
 
   return newNode;
@@ -40,8 +41,6 @@ class ZeroNode<T extends Comparable> extends Node<T> {
 
   @override
   Iterable<Node<T>> get children => [];
-
-
 }
 
 class TwoNode<T extends Comparable> extends Node<T> {
@@ -78,7 +77,8 @@ class TwoNode<T extends Comparable> extends Node<T> {
 }
 
 class ThreeNode<T extends Comparable> extends Node<T> {
-  ThreeNode._(this.leftValue, this.rightValue, this._left, this._middle, this._right);
+  ThreeNode._(
+      this.leftValue, this.rightValue, this._left, this._middle, this._right);
 
   final T leftValue;
   final T rightValue;
@@ -90,15 +90,18 @@ class ThreeNode<T extends Comparable> extends Node<T> {
     return ThreeNode._(leftValue, rightValue, null, null, null);
   }
 
-  factory ThreeNode.create(T leftValue, T rightValue, Node<T> leftChild, Node<T> middleChild, Node<T> rightChild) {
-    return ThreeNode._(leftValue, rightValue, leftChild, middleChild, rightChild);
+  factory ThreeNode.create(T leftValue, T rightValue, Node<T> leftChild,
+      Node<T> middleChild, Node<T> rightChild) {
+    return ThreeNode._(
+        leftValue, rightValue, leftChild, middleChild, rightChild);
   }
 
   @override
   bool get hasChildren => _left != null && _middle != null && _right != null;
 
   @override
-  Iterable<Node<T>> get children => [_left, _middle , _right].whereType<Node<T>>();
+  Iterable<Node<T>> get children =>
+      [_left, _middle, _right].whereType<Node<T>>();
 
   Node<T> get left => _left!;
   Node<T> get middle => _middle!;
@@ -115,7 +118,8 @@ class ThreeNode<T extends Comparable> extends Node<T> {
 }
 
 class FourNode<T extends Comparable> extends Node<T> {
-  FourNode._(this.leftValue, this.middleValue, this.rightValue, this._left, this._middleLeft, this._middleRight, this._right);
+  FourNode._(this.leftValue, this.middleValue, this.rightValue, this._left,
+      this._middleLeft, this._middleRight, this._right);
 
   final T leftValue;
   final T middleValue;
@@ -126,18 +130,32 @@ class FourNode<T extends Comparable> extends Node<T> {
   final Node<T>? _right;
 
   factory FourNode.createLeaf(T leftValue, T middleValue, T rightValue) {
-    return FourNode._(leftValue, middleValue, rightValue, null, null, null, null);
+    return FourNode._(
+        leftValue, middleValue, rightValue, null, null, null, null);
   }
 
-  factory FourNode.create(T leftValue, T middleValue, T rightValue, Node<T> leftChild, Node<T> middleLeftChild, Node<T> middleRightChild, Node<T> rightChild) {
-    return FourNode._(leftValue, middleValue, rightValue, leftChild, middleLeftChild, middleRightChild, rightChild);
+  factory FourNode.create(
+      T leftValue,
+      T middleValue,
+      T rightValue,
+      Node<T> leftChild,
+      Node<T> middleLeftChild,
+      Node<T> middleRightChild,
+      Node<T> rightChild) {
+    return FourNode._(leftValue, middleValue, rightValue, leftChild,
+        middleLeftChild, middleRightChild, rightChild);
   }
 
   @override
-  bool get hasChildren => _left != null && _middleLeft != null && _middleRight != null && _right != null;
+  bool get hasChildren =>
+      _left != null &&
+      _middleLeft != null &&
+      _middleRight != null &&
+      _right != null;
 
   @override
-  Iterable<Node<T>> get children => [_left, _middleLeft, _middleRight, _right].whereType<Node<T>>();
+  Iterable<Node<T>> get children =>
+      [_left, _middleLeft, _middleRight, _right].whereType<Node<T>>();
 
   Node<T> get left => _left!;
   Node<T> get middleLeft => _middleLeft!;
@@ -149,5 +167,3 @@ class FourNode<T extends Comparable> extends Node<T> {
     return '($leftValue, $middleValue , $rightValue)';
   }
 }
-
-

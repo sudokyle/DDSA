@@ -1,20 +1,24 @@
-
-
 import 'node.dart';
 
 // todo:: Don't allow duplicates to be inserted!
 class TwoThreeTree<T extends Comparable> {
-  TwoThreeTree({T? value}) : _root = value == null ? ZeroNode() : TwoNode<T>.createLeaf(value);
+  TwoThreeTree({T? value})
+      : _root = value == null ? ZeroNode() : TwoNode<T>.createLeaf(value);
   Node<T> _root;
-
 
   void insert(T newValue) {
     _root = _insert(newValue, _root);
 
     if (_root is FourNode<T>) {
       final fourNode = _root as FourNode<T>;
-      final leftSubTree = _root.hasChildren ? TwoNode<T>.create(fourNode.leftValue, fourNode.left, fourNode.middleLeft) : TwoNode<T>.createLeaf(fourNode.leftValue);
-      final rightSubTree = _root.hasChildren ? TwoNode<T>.create(fourNode.rightValue, fourNode.middleRight, fourNode.right) : TwoNode<T>.createLeaf(fourNode.rightValue);
+      final leftSubTree = _root.hasChildren
+          ? TwoNode<T>.create(
+              fourNode.leftValue, fourNode.left, fourNode.middleLeft)
+          : TwoNode<T>.createLeaf(fourNode.leftValue);
+      final rightSubTree = _root.hasChildren
+          ? TwoNode<T>.create(
+              fourNode.rightValue, fourNode.middleRight, fourNode.right)
+          : TwoNode<T>.createLeaf(fourNode.rightValue);
       _root = TwoNode.create(fourNode.middleValue, leftSubTree, rightSubTree);
     }
   }
@@ -38,15 +42,20 @@ class TwoThreeTree<T extends Comparable> {
       final newChild = _insert(newValue, childUpdate.nextChildNode);
       if (newChild is FourNode<T>) {
         // Promote newChild Values to balance
-        final newLeftSubTree = newChild.hasChildren ? TwoNode.create(newChild.leftValue, newChild.left, newChild.middleLeft) : TwoNode.createLeaf(newChild.leftValue);
-        final newRightSubTree = newChild.hasChildren ? TwoNode.create(newChild.rightValue, newChild.middleRight, newChild.right) : TwoNode.createLeaf(newChild.rightValue);
+        final newLeftSubTree = newChild.hasChildren
+            ? TwoNode.create(
+                newChild.leftValue, newChild.left, newChild.middleLeft)
+            : TwoNode.createLeaf(newChild.leftValue);
+        final newRightSubTree = newChild.hasChildren
+            ? TwoNode.create(
+                newChild.rightValue, newChild.middleRight, newChild.right)
+            : TwoNode.createLeaf(newChild.rightValue);
         final isLeftUpdate = childUpdate.childKey == ChildKey.left;
         final isRightUpdate = childUpdate.childKey == ChildKey.right;
         // print('Good, key: ${childUpdate.childKey}');
         // print('newChild: $newChild');
         // print('LeftSubTree: $newLeftSubTree ${newLeftSubTree.hasChildren}');
         // print('RightSubTree: $newRightSubTree ${newRightSubTree.hasChildren}');
-
 
         if (parent is TwoNode<T>) {
           final leftChild = isLeftUpdate ? newLeftSubTree : parent.left;
@@ -66,11 +75,23 @@ class TwoThreeTree<T extends Comparable> {
         } else if (parent is ThreeNode<T>) {
           return FourNode<T>.create(
             isLeftUpdate ? newChild.middleValue : parent.leftValue,
-            isLeftUpdate ? parent.leftValue : isRightUpdate ? parent.rightValue : newChild.middleValue,
+            isLeftUpdate
+                ? parent.leftValue
+                : isRightUpdate
+                    ? parent.rightValue
+                    : newChild.middleValue,
             isRightUpdate ? newChild.middleValue : parent.rightValue,
             isLeftUpdate ? newLeftSubTree : parent.left, // Left SubTree
-            isLeftUpdate ? newRightSubTree : isRightUpdate ? parent.middle : newLeftSubTree, // Middle Left SubTree
-            isLeftUpdate ? parent.middle : isRightUpdate ? newLeftSubTree : newRightSubTree, // Middle Right SubTree
+            isLeftUpdate
+                ? newRightSubTree
+                : isRightUpdate
+                    ? parent.middle
+                    : newLeftSubTree, // Middle Left SubTree
+            isLeftUpdate
+                ? parent.middle
+                : isRightUpdate
+                    ? newLeftSubTree
+                    : newRightSubTree, // Middle Right SubTree
             isRightUpdate ? newRightSubTree : parent.right, // Right SubTree
           );
         }
@@ -83,7 +104,6 @@ class TwoThreeTree<T extends Comparable> {
 
     throw Exception('Invalid Insertion State');
   }
-
 
   ChildUpdate<T> _getChildNodeToTraverse(T newValue, Node<T> parent) {
     late final ChildUpdate<T> childNode;
@@ -98,15 +118,22 @@ class TwoThreeTree<T extends Comparable> {
             } else {
               parent.left = node;
             }
-          }
-      );
+          });
     } else if (parent is ThreeNode<T>) {
       final lessThanLeftValue = parent.leftValue.compareTo(newValue) > 0;
       final greaterThanRightValue = parent.rightValue.compareTo(newValue) < 0;
 
       childNode = ChildUpdate(
-        childKey: lessThanLeftValue ? ChildKey.left : greaterThanRightValue ? ChildKey.right : ChildKey.middle,
-        nextChildNode: lessThanLeftValue ? parent.left : greaterThanRightValue ? parent.right : parent.middle,
+        childKey: lessThanLeftValue
+            ? ChildKey.left
+            : greaterThanRightValue
+                ? ChildKey.right
+                : ChildKey.middle,
+        nextChildNode: lessThanLeftValue
+            ? parent.left
+            : greaterThanRightValue
+                ? parent.right
+                : parent.middle,
         updateChild: (Node<T> node) {
           if (lessThanLeftValue) {
             parent.left = node;
@@ -121,7 +148,6 @@ class TwoThreeTree<T extends Comparable> {
     return childNode;
   }
 
-
   @override
   String toString() {
     final stack = [_root];
@@ -133,15 +159,17 @@ class TwoThreeTree<T extends Comparable> {
     }
     return graph;
   }
-
 }
 
-enum ChildKey {left, middle, right}
+enum ChildKey { left, middle, right }
 
 typedef ChildUpdater<T extends Comparable> = void Function(Node<T> newNode);
 
 class ChildUpdate<T extends Comparable> {
-  ChildUpdate({required this.nextChildNode, required this.updateChild, required this.childKey});
+  ChildUpdate(
+      {required this.nextChildNode,
+      required this.updateChild,
+      required this.childKey});
   final Node<T> nextChildNode;
   final ChildUpdater<T> updateChild;
   final ChildKey childKey;
