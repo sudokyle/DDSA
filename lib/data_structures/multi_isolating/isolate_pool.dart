@@ -2,14 +2,18 @@ part of miso;
 
 // MISO Soup (Multi-ISOlated Programming) Pool => Soup
 class IsolatePool<I extends Object, O extends Object> {
-  IsolatePool(int poolSize) :
-        poolSize = poolSize > 0 ? poolSize : throw Exception('Cannot have an IsolatePool with size less than or equal to zero.'),
+  IsolatePool(int poolSize)
+      : poolSize = poolSize > 0
+            ? poolSize
+            : throw Exception(
+                'Cannot have an IsolatePool with size less than or equal to zero.'),
         _processingPorts = [],
         _processQueue = Queue();
   final int poolSize;
   final List<ReceivePort> _processingPorts;
-  final Queue<Process<I,O>> _processQueue;
-  final StreamController<O> _processOutputController = StreamController.broadcast();
+  final Queue<Process<I, O>> _processQueue;
+  final StreamController<O> _processOutputController =
+      StreamController.broadcast();
   Stream<O> get outputStream => _processOutputController.stream;
   bool get _hasAvailableIsolates => _processingPorts.length < poolSize;
   int get activeProcessCount => _processingPorts.length;
@@ -18,9 +22,10 @@ class IsolatePool<I extends Object, O extends Object> {
     await _processOutputController.close();
   }
 
-  void addProcesses(Iterable<Process<I,O>> processes) => processes.forEach(addProcess);
+  void addProcesses(Iterable<Process<I, O>> processes) =>
+      processes.forEach(addProcess);
 
-  void addProcess(Process<I,O> process) {
+  void addProcess(Process<I, O> process) {
     _hasAvailableIsolates ? _process(process) : _enqueueProcess(process);
   }
 
@@ -31,7 +36,7 @@ class IsolatePool<I extends Object, O extends Object> {
     Isolate.exit(isoData.sp, data);
   }
 
-  void _process(Process<I,O> process) {
+  void _process(Process<I, O> process) {
     // Create and setup ReceivePort associated with isolate worker.
     final rp = ReceivePort();
     rp.listen((message) => _processCompletion(rp, message));
@@ -57,7 +62,7 @@ class IsolatePool<I extends Object, O extends Object> {
     }
   }
 
-  void _enqueueProcess(Process<I,O> process) => _processQueue.add(process);
+  void _enqueueProcess(Process<I, O> process) => _processQueue.add(process);
 }
 
 class _IsolateData {

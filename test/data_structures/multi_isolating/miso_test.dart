@@ -8,7 +8,7 @@ void main() {
       required int totalProcessed,
       required int expectedInitialProcess,
       required int expectedTotalProcess,
-        }) {
+    }) {
       expect(initialProcesses, equals(expectedInitialProcess));
       expect(totalProcessed, equals(expectedTotalProcess));
     }
@@ -26,10 +26,14 @@ void main() {
         test('then starts all processes and completes', () async {
           final isoPool = IsolatePool(5);
           isoPool.addProcesses([
-            Process<String, int>('1', (input) => Future.value(int.parse(input))),
-            Process<String, int>('2', (input) => Future.value(int.parse(input))),
-            Process<String, int>('3', (input) => Future.value(int.parse(input))),
-            Process<String, int>('4', (input) => Future.value(int.parse(input))),
+            Process<String, int>(
+                '1', (input) => Future.value(int.parse(input))),
+            Process<String, int>(
+                '2', (input) => Future.value(int.parse(input))),
+            Process<String, int>(
+                '3', (input) => Future.value(int.parse(input))),
+            Process<String, int>(
+                '4', (input) => Future.value(int.parse(input))),
           ]);
           expect(isoPool.activeProcessCount, equals(4));
           expect(await isoPool.outputStream.take(4).length, equals(4));
@@ -40,11 +44,16 @@ void main() {
         test('then starts all processes and completes', () async {
           final isoPool = IsolatePool(5);
           isoPool.addProcesses([
-            Process<String, int>('1', (input) => Future.value(int.parse(input))),
-            Process<String, int>('2', (input) => Future.value(int.parse(input))),
-            Process<String, int>('3', (input) => Future.value(int.parse(input))),
-            Process<String, int>('4', (input) => Future.value(int.parse(input))),
-            Process<String, int>('5', (input) => Future.value(int.parse(input))),
+            Process<String, int>(
+                '1', (input) => Future.value(int.parse(input))),
+            Process<String, int>(
+                '2', (input) => Future.value(int.parse(input))),
+            Process<String, int>(
+                '3', (input) => Future.value(int.parse(input))),
+            Process<String, int>(
+                '4', (input) => Future.value(int.parse(input))),
+            Process<String, int>(
+                '5', (input) => Future.value(int.parse(input))),
           ]);
           expect(isoPool.activeProcessCount, equals(5));
           expect(await isoPool.outputStream.take(5).length, equals(5));
@@ -52,7 +61,8 @@ void main() {
       });
 
       group('more than poolSize processes', () {
-        test('then starts poolSize number of processes and completes them', () async {
+        test('then starts poolSize number of processes and completes them',
+            () async {
           final isoPool = IsolatePool(5);
           Future<int> processor(String input) async => int.parse(input);
           isoPool.addProcesses([
@@ -67,8 +77,8 @@ void main() {
           expect(isoPool.activeProcessCount, equals(5));
           expect(await isoPool.outputStream.take(7).length, equals(7));
         });
-        test('then consumes queued processes as processes in pool completes.', () {
-        });
+        test('then consumes queued processes as processes in pool completes.',
+            () {});
       });
     });
   });
