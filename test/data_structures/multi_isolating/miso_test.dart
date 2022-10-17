@@ -1,4 +1,4 @@
-import 'package:DDSA/algorithms/multi_isolating/miso.dart';
+import 'package:DDSA/data_structures/multi_isolating/miso.dart';
 import 'package:test/test.dart';
 
 void main() {
