@@ -49,18 +49,19 @@ void main() {
         group('with valid input', () {
           test('produces correct output', () {
             final m1 = [
-                  [1, 2],
-                  [3, 4]
+                  [1, 2, 3],
+                  [4, 5, 6],
                 ],
                 m2 = [
-                  [5, 6],
-                  [7, 8]
+                  [7, 8],
+                  [9, 10],
+                  [11, 12],
                 ];
             final product = dotProduct(m1, m2);
-            expect(product[0][0], equals(19));
-            expect(product[0][1], equals(22));
-            expect(product[1][0], equals(43));
-            expect(product[1][1], equals(50));
+            expect(product[0][0], equals(58));
+            expect(product[0][1], equals(64));
+            expect(product[1][0], equals(139));
+            expect(product[1][1], equals(154));
           });
         });
       });

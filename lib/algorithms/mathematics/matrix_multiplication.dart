@@ -17,7 +17,7 @@ List<List<num>> dotProduct(List<List<num>> A, List<List<num>> B) {
   if (A.isEmpty && B.isEmpty) {
     throw Exception('Matrices cannot be empty.');
   }
-  if (A.length != B.first.length) {
+  if (A.length != B.first.length || A.first.length != B.length) {
     throw Exception(
         "Length of Matrix A rows (${A.length}) isn't equal to length of Matrix B columns (${B.first.length}). They must be equal.");
   }
