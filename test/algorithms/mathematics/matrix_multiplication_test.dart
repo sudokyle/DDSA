@@ -36,13 +36,26 @@ void main() {
         });
         group('with invalid dimensions', () {
           test('throws exception', () {
-            final m1 = [[1,2]], m2 = [[5,6], [7,8]];
+            final m1 = [
+                  [1, 2]
+                ],
+                m2 = [
+                  [5, 6],
+                  [7, 8]
+                ];
             expect(() => dotProduct(m1, m2), throwsException);
           });
         });
         group('with valid input', () {
           test('produces correct output', () {
-            final m1 = [[1,2], [3,4]], m2 = [[5,6], [7,8]];
+            final m1 = [
+                  [1, 2],
+                  [3, 4]
+                ],
+                m2 = [
+                  [5, 6],
+                  [7, 8]
+                ];
             final product = dotProduct(m1, m2);
             expect(product[0][0], equals(19));
             expect(product[0][1], equals(22));
