@@ -35,12 +35,17 @@ List<List<num>> dotProduct(List<List<num>> A, List<List<num>> B) {
   return matrix;
 }
 
-List<num> vectorAdd(List<num> A, List<num> B) => A.length == B.length ? List.generate(A.length, (index) => A[index] + B[index]) : throw Exception('Vectors must be of same length to add.');
+List<num> vectorAdd(List<num> A, List<num> B) => A.length == B.length
+    ? List.generate(A.length, (index) => A[index] + B[index])
+    : throw Exception('Vectors must be of same length to add.');
 
-List<num> vectorSubtract(List<num> A, List<num> B) => A.length == B.length ? List.generate(A.length, (index) => A[index] - B[index]) : throw Exception('Vectors must be of same length to subtract.');
+List<num> vectorSubtract(List<num> A, List<num> B) => A.length == B.length
+    ? List.generate(A.length, (index) => A[index] - B[index])
+    : throw Exception('Vectors must be of same length to subtract.');
 
 List<List<num>> matrixAdd(List<List<num>> A, List<List<num>> B) {
-  void throwException() => throw Exception('Matrices must be of equal dimensions to add.');
+  void throwException() =>
+      throw Exception('Matrices must be of equal dimensions to add.');
   if (A.length != B.length) throwException();
   if (A.isEmpty) return [[]];
   if (A.first.length != B.first.length) throwException();
@@ -48,7 +53,8 @@ List<List<num>> matrixAdd(List<List<num>> A, List<List<num>> B) {
 }
 
 List<List<num>> matrixSubtract(List<List<num>> A, List<List<num>> B) {
-  void throwException() => throw Exception('Matrices must be of equal dimensions to subtract.');
+  void throwException() =>
+      throw Exception('Matrices must be of equal dimensions to subtract.');
   if (A.length != B.length) throwException();
   if (A.isEmpty) return [[]];
   if (A.first.length != B.first.length) throwException();

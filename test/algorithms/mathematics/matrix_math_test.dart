@@ -107,38 +107,41 @@ void main() {
         });
         group('with unequal lengths', () {
           test('throws exception', () {
-            expect(() => matrixAdd(
-              [
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9],
-              ],
-              [
-                [1, 2, 3],
-                [4, 5, 6],
-              ],
-            ), throwsException);
-
+            expect(
+                () => matrixAdd(
+                      [
+                        [1, 2, 3],
+                        [4, 5, 6],
+                        [7, 8, 9],
+                      ],
+                      [
+                        [1, 2, 3],
+                        [4, 5, 6],
+                      ],
+                    ),
+                throwsException);
           });
         });
         group('with valid input', () {
           test('produces valid output', () {
-            expect(matrixAdd(
-              [
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9],
-              ],
-              [
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9],
-              ],
-            ), equals([
-              [2, 4, 6],
-              [8, 10, 12],
-              [14, 16, 18],
-            ]));
+            expect(
+                matrixAdd(
+                  [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                  ],
+                  [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                  ],
+                ),
+                equals([
+                  [2, 4, 6],
+                  [8, 10, 12],
+                  [14, 16, 18],
+                ]));
           });
         });
       });
@@ -150,42 +153,44 @@ void main() {
         });
         group('with unequal lengths', () {
           test('throws exception', () {
-            expect(() => matrixSubtract(
-              [
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9],
-              ],
-              [
-                [1, 2, 3],
-                [4, 5, 6],
-              ],
-            ), throwsException);
-
+            expect(
+                () => matrixSubtract(
+                      [
+                        [1, 2, 3],
+                        [4, 5, 6],
+                        [7, 8, 9],
+                      ],
+                      [
+                        [1, 2, 3],
+                        [4, 5, 6],
+                      ],
+                    ),
+                throwsException);
           });
         });
         group('with valid input', () {
           test('produces valid output', () {
-            expect(matrixSubtract(
-              [
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9],
-              ],
-              [
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9],
-              ],
-            ), equals([
-              [0, 0, 0],
-              [0, 0, 0],
-              [0, 0, 0],
-            ]));
+            expect(
+                matrixSubtract(
+                  [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                  ],
+                  [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                  ],
+                ),
+                equals([
+                  [0, 0, 0],
+                  [0, 0, 0],
+                  [0, 0, 0],
+                ]));
           });
         });
       });
     });
   });
 }
-
