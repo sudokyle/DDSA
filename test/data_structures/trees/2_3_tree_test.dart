@@ -1,123 +1,154 @@
+import 'dart:math';
 import 'package:DDSA/data_structures/trees/2_3_tree/node.dart';
 import 'package:test/test.dart';
 import 'package:DDSA/data_structures/trees/2_3_tree/2_3_tree.dart';
 
 void main() {
+  final data = [
+    30,
+    40,
+    15,
+    50,
+    60,
+    25,
+    45,
+    65,
+    35,
+    55,
+    70,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    170,
+    180,
+    190,
+    200,
+    210,
+    220,
+    230,
+    240,
+    250,
+    260,
+    20
+  ];
+
   group('2-3 Tree', () {
-    group('When tree is given null value(s)', () {});
-    group('When tree is empty', () {});
-    group('When tree has one element', () {
-      late final TwoThreeTree tree;
-      setUp(() {
-        tree = TwoThreeTree.fromList([5]);
-      });
-    });
-    group('When tree has two elements', () {
-      late final TwoThreeTree tree;
-      setUp(() {
-        tree = TwoThreeTree.fromList([5, -5]);
-      });
-    });
-    group('When tree has many elements', () {
-      late final TwoThreeTree<int> tree;
-
-      void verifyTwoNode(String path, {required dynamic expectedValue}) {
-        final node = tree.nodeByPath(path);
-        expect(node is TwoNode<int>, isTrue);
-        if (node is TwoNode<int>) {
-          expect(node.value, equals(expectedValue));
-        }
+    test('insert', () {
+      final twoThreeTree = TwoThreeTree<int>();
+      for (final value in data) {
+        twoThreeTree.insert(value);
+        verifyTree(twoThreeTree);
       }
-
-      void verifyThreeNode(String path,
-          {required dynamic expectedLeftValue,
-          required dynamic expectedRightValue}) {
-        final node = tree.nodeByPath(path);
-        expect(node is ThreeNode<int>, isTrue);
-        if (node is ThreeNode<int>) {
-          expect(node.leftValue, equals(expectedLeftValue));
-          expect(node.rightValue, equals(expectedRightValue));
-        }
-      }
-
-      setUp(() {
-        tree = TwoThreeTree.fromList([
-          30,
-          40,
-          15,
-          50,
-          60,
-          25,
-          45,
-          65,
-          35,
-          55,
-          70,
-          80,
-          90,
-          100,
-          110,
-          120,
-          130,
-          140,
-          150,
-          160,
-          170,
-          180,
-          190,
-          200,
-          210,
-          220,
-          230,
-          240,
-          250,
-          260,
-          20
-        ]);
-      });
-
-      test('Then Tree is balanced correctly.', () {
-        // Verify Balanced trees height.
-        expect(tree.height, equals(3));
-
-        // Root Node of Tree
-        verifyThreeNode('/', expectedLeftValue: 60, expectedRightValue: 130);
-
-        // Left SubTree
-        verifyTwoNode('/left', expectedValue: 40);
-        verifyThreeNode('/left/left',
-            expectedLeftValue: 20, expectedRightValue: 30);
-        verifyTwoNode('/left/left/left', expectedValue: 15);
-        verifyTwoNode('/left/left/middle', expectedValue: 25);
-        verifyTwoNode('/left/left/right', expectedValue: 35);
-        verifyTwoNode('/left/right', expectedValue: 50);
-        verifyTwoNode('/left/right/left', expectedValue: 45);
-        verifyTwoNode('/left/right/right', expectedValue: 55);
-
-        // Middle SubTree
-        verifyTwoNode('/middle', expectedValue: 90);
-        verifyTwoNode('/middle/left', expectedValue: 70);
-        verifyTwoNode('/middle/left/left', expectedValue: 65);
-        verifyTwoNode('/middle/left/right', expectedValue: 80);
-        verifyTwoNode('/middle/right', expectedValue: 110);
-        verifyTwoNode('/middle/right/left', expectedValue: 100);
-        verifyTwoNode('/middle/right/right', expectedValue: 120);
-
-        // Right SubTree
-        verifyThreeNode('/right',
-            expectedLeftValue: 170, expectedRightValue: 210);
-        verifyTwoNode('/right/left', expectedValue: 150);
-        verifyTwoNode('/right/left/left', expectedValue: 140);
-        verifyTwoNode('/right/left/right', expectedValue: 160);
-        verifyTwoNode('/right/middle', expectedValue: 190);
-        verifyTwoNode('/right/middle/left', expectedValue: 180);
-        verifyTwoNode('/right/middle/right', expectedValue: 200);
-        verifyThreeNode('/right/right',
-            expectedLeftValue: 230, expectedRightValue: 250);
-        verifyTwoNode('/right/right/left', expectedValue: 220);
-        verifyTwoNode('/right/right/middle', expectedValue: 240);
-        verifyTwoNode('/right/right/right', expectedValue: 260);
-      });
     });
+
+    test('delete', () {
+      final twoThreeTree = TwoThreeTree<int>.fromList(data);
+      for (final value in data) {
+        print('Tree: $twoThreeTree');
+        twoThreeTree.delete(value);
+        print('------------------------------');
+        print('Tree: $twoThreeTree');
+        verifyTree(twoThreeTree);
+      }
+    });
+
   });
+}
+
+verifyTree(TwoThreeTree tree) {
+  final (nodeCount, treeHeight, allBranchesHaveEqualHeight) = getTreeData(tree.root, 0);
+  // print('Tree: nodes: $nodeCount, height: $treeHeight, equal heights: $allBranchesHaveEqualHeight');
+  expect(allBranchesHaveEqualHeight, isTrue, reason: "Every branch on Tree should have the same height.");
+
+  // The height of the tree should satisfy log3(n) <= height(tree) <= log2(n)
+  // print('${log3(nodeCount).round()} <= $treeHeight <= ${log2(nodeCount).round()}');
+  expect(treeHeight, greaterThanOrEqualTo(log3(nodeCount).round()));
+  expect(treeHeight, lessThanOrEqualTo(log2(nodeCount).round()));
+}
+
+double log3(int n) => logBase(n, 3);
+double log2(int n) => logBase(n, 2);
+double logBase(int n, int base) => log(n)/log(base);
+
+(int nodeCount, int height, bool validHeight) getTreeData<T extends Comparable>(Node<T> node, int height) {
+  if (node.hasChildren) {
+    if (node is TwoNode<T>) {
+      // Non-leaf nodes must have all their children
+      expect(node.maybeLeft, isNotNull);
+      expect(node.maybeRight, isNotNull);
+      // Assert Node Values
+      final leftChild = node.left;
+      final rightChild = node.right;
+      if (leftChild is TwoNode<T>) {
+        expect(node.value.compareTo(leftChild.value) > 0, isTrue);
+      } else if (leftChild is ThreeNode<T>) {
+        expect(node.value.compareTo(leftChild.leftValue) > 0, isTrue);
+        expect(node.value.compareTo(leftChild.rightValue) > 0, isTrue);
+      }
+      if (rightChild is TwoNode<T>) {
+        expect(node.value.compareTo(rightChild.value) < 0, isTrue);
+      } else if (rightChild is ThreeNode<T>) {
+        expect(node.value.compareTo(rightChild.leftValue) < 0, isTrue);
+        expect(node.value.compareTo(rightChild.rightValue) < 0, isTrue);
+      }
+
+      final (leftNodeCount, leftHeight, leftHeightValid) = getTreeData(node.left, height+1);
+      final (rightNodeCount, rightHeight, rightHeightValid) = getTreeData(node.right, height+1);
+      // if either leftHeightValid or rightHeightValid is false, the height is wrong and returned height is ignored.
+      // otherwise this means the heights at bse case leaf nodes were equal and thus we can just return either left or right height
+      // and they will be the same.
+      return (1 + leftNodeCount + rightNodeCount, leftHeight, (leftHeightValid && rightHeightValid) && (leftHeight == rightHeight));
+    } else if (node is ThreeNode<T>) {
+      // Non-leaf nodes must have all their children
+      expect(node.maybeLeft, isNotNull);
+      expect(node.maybeMiddle, isNotNull);
+      expect(node.maybeRight, isNotNull);
+      // Assert Node Values
+      final leftChild = node.left;
+      final middleChild = node.middle;
+      final rightChild = node.right;
+      expect(node.leftValue.compareTo(node.rightValue) < 0, isTrue, reason: '${node.leftValue} < ${node.rightValue} but got ${node.leftValue.compareTo(node.rightValue)}');
+      if (leftChild is TwoNode<T>) {
+        expect(node.leftValue.compareTo(leftChild.value) > 0, isTrue);
+      } else if (leftChild is ThreeNode<T>) {
+        expect(node.leftValue.compareTo(leftChild.leftValue) > 0, isTrue);
+        expect(node.leftValue.compareTo(leftChild.rightValue) > 0, isTrue);
+      }
+      if (middleChild is TwoNode<T>) {
+        expect(node.leftValue.compareTo(middleChild.value) < 0, isTrue);
+        expect(node.rightValue.compareTo(middleChild.value) > 0, isTrue);
+      } else if (middleChild is ThreeNode<T>) {
+        expect(node.leftValue.compareTo(middleChild.leftValue) < 0, isTrue);
+        expect(node.leftValue.compareTo(middleChild.rightValue) < 0, isTrue);
+        expect(node.rightValue.compareTo(middleChild.leftValue) > 0, isTrue);
+        expect(node.rightValue.compareTo(middleChild.rightValue) > 0, isTrue);
+      }
+      if (rightChild is TwoNode<T>) {
+        expect(node.rightValue.compareTo(rightChild.value) < 0, isTrue);
+      } else if (rightChild is ThreeNode<T>) {
+        expect(node.rightValue.compareTo(rightChild.leftValue) < 0, isTrue);
+        expect(node.rightValue.compareTo(rightChild.rightValue) < 0, isTrue);
+      }
+
+      final (leftNodeCount, leftHeight, leftHeightValid) = getTreeData(node.left, height+1);
+      final (middleNodeCount, middleHeight, middleHeightValid) = getTreeData(node.middle, height+1);
+      final (rightNodeCount, rightHeight, rightHeightValid) = getTreeData(node.right, height+1);
+      return (1 + leftNodeCount + middleNodeCount + rightNodeCount, leftHeight, (leftHeightValid && middleHeightValid && rightHeightValid) && (leftHeight == middleHeight && middleHeight == rightHeight));
+    }
+    throw Exception('Node in TwoThreeTree is not a Two or Three node, it is ${node.runtimeType} which is not valid.');
+  }
+
+  // Base Case: Leaf Nodes!
+  if (node is TwoNode<T>) {
+    return (1, height, true);
+  } else if (node is ThreeNode<T>) {
+    return (1, height, true);
+  }
+  throw Exception('Node in TwoThreeTree is not a Two or Three node, it is ${node.runtimeType} which is not valid.');
 }
