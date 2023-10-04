@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image:  google/dart:latest
+      image: dart:3-sdk
 
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: pub get
+        run: dart pub get
       - name: Format Check
         run: dart format lib test --set-exit-if-changed --output=none
       - name: Run tests
-        run: pub run test
+        run: dart run test
