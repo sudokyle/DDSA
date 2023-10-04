@@ -7,6 +7,7 @@ import 'algorithms/searching/binary_search_test.dart' as binary_search;
 import 'algorithms/searching/jump_search_test.dart' as jump_search;
 import 'algorithms/mathematics/matrix_math_test.dart' as matrix_multi;
 import 'data_structures/multi_isolating/miso_test.dart' as miso;
+import 'data_structures/graph_test.dart' as graph_test;
 
 void main() {
   sorting.main();
@@ -17,4 +18,5 @@ void main() {
   adapter_pattern.main();
   miso.main();
   matrix_multi.main();
+  graph_test.main();
 }

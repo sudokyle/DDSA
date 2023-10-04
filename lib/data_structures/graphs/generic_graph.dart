@@ -23,17 +23,6 @@ class Node<T> {
   String toString() {
     return '{ value: $value, edges: [${edges.map((n) => n.value).join(',')}], hashCode: $hashCode }';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return other is Node<T> &&
-        other.value == value &&
-        other.edges.length == edges.length &&
-        edges.every((edge) => other.edges.contains(edge));
-  }
-
-  @override
-  int get hashCode => value.hashCode ^ edges.hashCode;
 }
 
 /// Can store a set of nodes that represent disjointed graphs as a single graph.
@@ -191,5 +180,37 @@ class Graph<T> {
         ..forEach((edge) => visitedList.add(
             edge))); // Queue up unvisited nodes and add them to the visited list.
     }
+  }
+
+  static bool isBipartite<E>(Graph<E> graph) {
+    if (graph._nodes.values.isEmpty) return true;
+    final nodes = graph._nodes.values;
+    final colorMap = <Node<E>, int>{};
+    var validBipartite = true;
+    for (final node in nodes) {
+      if (colorMap[node] == null) {
+        colorMap[node] = 1;
+        validBipartite = _colorNodes(node, 1, colorMap);
+      }
+      if (!validBipartite) break;
+    }
+    return validBipartite;
+  }
+
+  static bool _colorNodes<E>(
+      Node<E> node, int color, Map<Node<E>, int> colorMap) {
+    var isValid = true;
+    final newColor = 1 - color;
+    for (final otherNode in node.edges) {
+      final otherNodeColor = colorMap[otherNode];
+      if (otherNodeColor == null) {
+        colorMap[otherNode] = newColor;
+        isValid = _colorNodes(otherNode, newColor, colorMap);
+      } else if (otherNodeColor == color) {
+        isValid = false;
+      }
+      if (!isValid) break;
+    }
+    return isValid;
   }
 }
